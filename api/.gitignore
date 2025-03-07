@@ -108,3 +108,5 @@ fast-api-venv/
 .mypy_cache/
 
 .idea/*
+
+.DS_Store
