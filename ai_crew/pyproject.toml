@@ -6,8 +6,9 @@ authors = [{ name = "Gayashan Wagachchi", email = "gayashan4lk@gmail.com" }]
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "crewai[tools]>=0.102.0,<1.0.0",
+    "fastapi[standard]>=0.115.11",
     "langchain-anthropic>=0.1.0",
-    "python-dotenv>=0.20.0"
+    "python-dotenv>=0.20.0",
 ]
 
 [project.scripts]
