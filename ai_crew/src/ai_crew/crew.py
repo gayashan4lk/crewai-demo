@@ -19,21 +19,27 @@ class AiCrew():
 	# Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
+	anthropic_model_haiku = f"anthropic/{os.getenv('ANTHROPIC_MODEL_HAIKU', 'claude-3-5-haiku-latest')}"
+	anthropic_model_sonnet = f"anthropic/{os.getenv('ANTHROPIC_MODEL_SONNET', 'claude-3-7-sonnet-latest')}"
 
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
 	@agent
 	def researcher(self) -> Agent:
+		researcher_llm = LLM(model=self.anthropic_model_haiku, temperature=0.5)
 		return Agent(
 			config=self.agents_config['researcher'],
-			verbose=True
+			verbose=True,
+			llm=researcher_llm
 		)
 
 	@agent
 	def reporting_analyst(self) -> Agent:
+		reporting_analyst_llm = LLM(model=self.anthropic_model_haiku, temperature=0.5)
 		return Agent(
 			config=self.agents_config['reporting_analyst'],
-			verbose=True
+			verbose=True,
+			llm=reporting_analyst_llm
 		)
 
 	# To learn more about structured task outputs, 
@@ -57,9 +63,7 @@ class AiCrew():
 		"""Creates the AiCrew crew"""
 		# To learn how to add knowledge sources to your crew, check out the documentation:
 		# https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-		model_name = os.getenv("ANTHROPIC_MODEL_HAIKU", "anthropic/claude-3-haiku-20240307")
-		print(f"Using model: {model_name}")
-		manager_llm = LLM(model=model_name, temperature=0.2)
+		manager_llm = LLM(model=self.anthropic_model_sonnet, temperature=0.2)
 
 		return Crew(
 			agents=self.agents, # Automatically created by the @agent decorator
